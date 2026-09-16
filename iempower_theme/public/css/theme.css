@@ -1,0 +1,489 @@
+/* ============================================================
+   iEmpPower Theme — design tokens + shared components
+   ------------------------------------------------------------
+   This file is CSS + design tokens ONLY. No field names, no
+   doctype-specific logic, no page layout — every class here is
+   generic enough to be reused by a page with completely
+   different fields/permissions.
+
+   USAGE — include on any portal page:
+     <link rel="stylesheet" href="/assets/iempower_theme/css/theme.css">
+
+   Every component class is prefixed "iet-" (iEmpPower Theme) so
+   it can never collide with a page's own page-specific classes
+   (ts-, wfhl-, tv-, etc.) — those stay exactly as they are; this
+   file gives them tokens + a small set of shared building blocks
+   to build on top of, it doesn't replace them.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap');
+
+/* ---------- Design tokens ---------- */
+:root{
+  --p-primary:#008BB1;
+  --p-primary-tint:rgba(0,139,177,0.08);
+  --p-primary-tint-soft:rgba(0,139,177,0.06);
+
+  --p-secondary:#87888A;
+  --p-secondary-container:#dfdfe1;
+  --p-on-secondary-container:#616365;
+
+  --p-tertiary:#874f00;
+  --p-tertiary-container:#ffdcbd;
+  --p-on-tertiary-container:#693c00;
+
+  --p-neutral:#4D4D4F;
+
+  --p-success-bg:#e3f3ec;
+  --p-success-tx:#1b7a4d;
+  --p-success-ic:#2e9467;
+
+  --p-error:#ba1a1a;
+  --p-error-container:#ffdad6;
+  --p-on-error-container:#93000a;
+
+  --p-bg:#f8f9fa;
+  --p-surface:#ffffff;
+  --p-border:#e5e7eb;
+
+  --p-on-surface:#1b1b1d;
+  --p-on-surface-variant:#3e484d;
+  --p-outline:#6e797e;
+
+  --p-font: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  --p-radius-control: 8px;   /* buttons, inputs */
+  --p-radius-card: 16px;     /* cards, modals */
+  --p-radius-chip: 4px;      /* chips, tags, badges */
+}
+
+/* ---------- Base ---------- */
+.iet-root{
+  font-family: var(--p-font);
+  color: var(--p-on-surface);
+  -webkit-font-smoothing: antialiased;
+}
+.iet-root *, .iet-root *::before, .iet-root *::after{ box-sizing: border-box; }
+
+/* Anti-blink helper — pair with the reveal-on-ready pattern in widgets.js.
+   Put this class on your page's root wrapper; JS removes it once chrome
+   cleanup + load are both done. */
+.iet-fade-in{ opacity: 0; transition: opacity .18s ease; }
+.iet-fade-in.iet-ready{ opacity: 1; }
+
+/* ---------- Buttons ---------- */
+.iet-btn{
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: inherit; font-size: 13.5px; font-weight: 600;
+  padding: 10px 18px; border-radius: var(--p-radius-control);
+  border: none; cursor: pointer; text-decoration: none; white-space: nowrap;
+  background: var(--p-primary); color: #fff;
+  transition: filter .15s, box-shadow .15s, background .15s;
+}
+.iet-btn:hover{ filter: brightness(1.04); box-shadow: 0 4px 12px var(--p-primary-tint); }
+.iet-btn:disabled{ opacity: .6; cursor: not-allowed; filter: none; box-shadow: none; }
+.iet-btn svg{ width: 15px; height: 15px; flex-shrink: 0; }
+
+.iet-btn-outline{
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: inherit; font-size: 13.5px; font-weight: 600;
+  padding: 9px 17px; border-radius: var(--p-radius-control);
+  border: 1.5px solid var(--p-primary); background: #fff; color: var(--p-primary);
+  cursor: pointer; text-decoration: none; white-space: nowrap;
+  transition: background .15s;
+}
+.iet-btn-outline:hover{ background: var(--p-primary-tint); }
+.iet-btn-outline:disabled{ opacity: .6; cursor: not-allowed; }
+
+.iet-btn-ghost{
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: inherit; font-size: 13.5px; font-weight: 600;
+  padding: 9px 12px; border-radius: var(--p-radius-control);
+  border: 1px solid var(--p-border); background: #fff; color: var(--p-on-surface);
+  cursor: pointer; text-decoration: none;
+}
+.iet-btn-ghost:hover{ background: var(--p-bg); }
+
+.iet-btn-danger-outline{
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: inherit; font-size: 13.5px; font-weight: 600;
+  padding: 9px 17px; border-radius: var(--p-radius-control);
+  border: 1px solid var(--p-error-container); background: #fff; color: var(--p-error);
+  cursor: pointer; text-decoration: none;
+}
+.iet-btn-danger-outline:hover{ background: var(--p-error-container); }
+
+.iet-btn-approve{ background: var(--p-success-ic); color: #fff; border: none; }
+.iet-btn-approve:hover{ filter: brightness(1.05); }
+.iet-btn-danger{ background: var(--p-error); color: #fff; border: none; }
+.iet-btn-danger:hover{ filter: brightness(.92); }
+
+/* ---------- Cards ---------- */
+.iet-card{
+  background: var(--p-surface);
+  border: 1px solid var(--p-border);
+  border-radius: var(--p-radius-card);
+  padding: 20px 22px;
+}
+.iet-card-title-row{
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; margin-bottom: 14px;
+}
+.iet-card-title{
+  display: flex; align-items: center; gap: 8px;
+  font-size: 14.5px; font-weight: 600; margin: 0;
+}
+.iet-card-title svg{ width: 16px; height: 16px; color: var(--p-primary); flex-shrink: 0; }
+
+/* Hover/active state for a whole card acting as an interactive control
+   (e.g. a clickable stat card) — 1px -> 2px border with padding
+   compensation so content doesn't shift, per the "Stat/interactive
+   cards" spec. */
+.iet-card-interactive{ cursor: pointer; transition: border-color .15s, box-shadow .15s; }
+.iet-card-interactive:hover{ box-shadow: 0 4px 12px var(--p-primary-tint); }
+.iet-card-interactive.iet-active{ border-width: 2px; padding: 19px 21px; border-color: var(--p-primary); }
+
+/* ---------- Badges / status chips ---------- */
+.iet-badge{
+  display: inline-block; font-size: 11px; font-weight: 600;
+  padding: 4px 11px; border-radius: var(--p-radius-chip);
+  white-space: nowrap; letter-spacing: .01em;
+}
+.iet-b-draft{ background: var(--p-secondary-container); color: var(--p-on-secondary-container); }
+.iet-b-pending{ background: var(--p-tertiary-container); color: var(--p-on-tertiary-container); }
+.iet-b-approved{ background: var(--p-success-bg); color: var(--p-success-tx); }
+.iet-b-rejected{ background: var(--p-error-container); color: var(--p-on-error-container); }
+
+/* ---------- Stat cards (icon + label / big number / sub-label) ---------- */
+.iet-stat-top{ display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.iet-stat-icon{
+  width: 26px; height: 26px; border-radius: 8px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.iet-stat-icon svg{ width: 14px; height: 14px; }
+.iet-si-primary{ background: var(--p-primary-tint); color: var(--p-primary); }
+.iet-si-secondary{ background: var(--p-secondary-container); color: var(--p-on-secondary-container); }
+.iet-si-tertiary{ background: var(--p-tertiary-container); color: var(--p-on-tertiary-container); }
+.iet-si-success{ background: var(--p-success-bg); color: var(--p-success-tx); }
+.iet-si-error{ background: var(--p-error-container); color: var(--p-error); }
+.iet-stat-label{
+  font-size: 12px; font-weight: 500; color: var(--p-on-surface-variant);
+  letter-spacing: .05em; text-transform: uppercase;
+}
+.iet-stat-value{ font-size: 28px; font-weight: 700; line-height: 1; letter-spacing: -.01em; }
+.iet-stat-sub{ font-size: 12px; color: var(--p-outline); margin-top: 5px; }
+
+/* ---------- Form controls ---------- */
+.iet-root input[type=text],
+.iet-root input[type=date],
+.iet-root input[type=number],
+.iet-root input[type=email],
+.iet-root select,
+.iet-root textarea{
+  width: 100%; border: 1px solid var(--p-secondary); border-radius: var(--p-radius-control);
+  padding: 9px 12px; font-family: inherit; font-size: 13.5px; color: var(--p-on-surface);
+  background: #fff; transition: border-color .15s, box-shadow .15s;
+}
+.iet-root input:focus, .iet-root select:focus, .iet-root textarea:focus{
+  outline: none; border-color: var(--p-primary); box-shadow: 0 0 0 2px var(--p-primary-tint);
+}
+.iet-root input:disabled, .iet-root select:disabled, .iet-root textarea:disabled{
+  background: var(--p-bg); color: var(--p-outline); cursor: not-allowed;
+}
+.iet-label{
+  display: block; font-size: 12px; font-weight: 500; color: var(--p-outline); margin-bottom: 6px;
+}
+.iet-label .iet-req{ color: var(--p-error); }
+
+/* ============================================================
+   Custom Select — trigger button + floating checkmarked panel.
+   Wraps a native <select> (see widgets.js: ietInitCustomSelect).
+   The native element stays the real source of truth; this is
+   the visual layer only.
+   ============================================================ */
+.iet-cs-wrap{ position: relative; width: 100%; }
+.iet-cs-native{ display: none !important; }
+.iet-cs-trigger{
+  width: 100%; border: 1px solid var(--p-secondary); border-radius: var(--p-radius-control);
+  padding: 9px 12px; font-family: inherit; font-size: 13.5px; color: var(--p-on-surface);
+  background: #fff; display: flex; align-items: center; justify-content: space-between;
+  cursor: pointer; transition: border-color .15s, box-shadow .15s;
+}
+.iet-cs-trigger:hover{ border-color: #b9c6cc; }
+.iet-cs-trigger.iet-open{ border-color: var(--p-primary); box-shadow: 0 0 0 2px var(--p-primary-tint); }
+.iet-cs-trigger .iet-cs-label{ overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.iet-cs-trigger .iet-cs-label.iet-placeholder{ color: var(--p-outline); }
+.iet-cs-trigger svg{ flex-shrink: 0; color: var(--p-outline); margin-left: 6px; width: 14px; height: 14px; transition: transform .15s; }
+.iet-cs-trigger.iet-open svg{ transform: rotate(180deg); color: var(--p-primary); }
+.iet-cs-panel{
+  position: absolute; top: calc(100% + 6px); left: 0; min-width: 100%; width: max-content; max-width: 320px;
+  background: #fff; border: none; border-radius: 12px; box-shadow: 0 12px 32px rgba(20,24,31,0.16);
+  padding: 6px 4px 6px 6px; z-index: 60; max-height: 260px; overflow-y: auto; display: none;
+  scrollbar-width: thin; scrollbar-color: var(--p-border) transparent;
+}
+.iet-cs-panel::-webkit-scrollbar{ width: 5px; }
+.iet-cs-panel::-webkit-scrollbar-track{ background: transparent; }
+.iet-cs-panel::-webkit-scrollbar-thumb{ background: var(--p-border); border-radius: 3px; }
+.iet-cs-panel::-webkit-scrollbar-thumb:hover{ background: var(--p-secondary); }
+.iet-cs-panel.iet-open{ display: block; }
+.iet-cs-option{
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 9px 12px; border-radius: 8px; font-size: 13px; color: var(--p-on-surface);
+  cursor: pointer; white-space: nowrap;
+}
+.iet-cs-option:hover{ background: var(--p-bg); }
+.iet-cs-option.iet-selected{ background: var(--p-primary-tint); color: var(--p-primary); font-weight: 600; }
+.iet-cs-option svg{ flex-shrink: 0; color: var(--p-primary); width: 13px; height: 13px; }
+
+/* ============================================================
+   Custom Date Picker — pill trigger (icon + label) + calendar
+   popup card. Matches the reference spec: white card, ~16px
+   radius, drop shadow, no border; chevron‹ centered "Month YYYY"
+   chevron› header; light grey abbreviated weekday row; current-
+   month days dark, adjacent-month days muted. Wraps a native
+   <input type=date> — see widgets.js: ietInitDatePicker.
+   ============================================================ */
+.iet-dp-wrap{ position: relative; }
+.iet-dp-native{ display: none !important; }
+.iet-dp-trigger{
+  display: flex; align-items: center; gap: 8px;
+  border: 1px solid var(--p-secondary); border-radius: 999px; padding: 9px 14px;
+  font-family: inherit; font-size: 13.5px; color: var(--p-on-surface); background: #fff;
+  cursor: pointer; min-width: 150px; transition: border-color .15s, box-shadow .15s;
+}
+.iet-dp-trigger:hover{ border-color: var(--p-primary); }
+.iet-dp-trigger.iet-open{ border-color: var(--p-primary); box-shadow: 0 0 0 2px var(--p-primary-tint); }
+.iet-dp-trigger svg{ width: 15px; height: 15px; stroke: var(--p-outline); flex-shrink: 0; }
+.iet-dp-label{ overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.iet-dp-label.iet-placeholder{ color: var(--p-outline); }
+
+.iet-dp-panel{
+  display: none; position: absolute; top: calc(100% + 8px); left: 0;
+  background: #fff; border: none; border-radius: 16px;
+  box-shadow: 0 20px 45px rgba(20,24,31,0.16), 0 4px 14px rgba(20,24,31,0.08);
+  padding: 16px; z-index: 400; width: 280px;
+}
+.iet-dp-panel.iet-open{ display: block; }
+.iet-dp-header{ display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.iet-dp-nav{
+  width: 26px; height: 26px; border-radius: 8px; border: none; background: none;
+  color: var(--p-outline); font-size: 17px; line-height: 1; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.iet-dp-nav:hover:not(:disabled){ background: var(--p-primary-tint); color: var(--p-primary); }
+.iet-dp-nav:disabled{ opacity: .3; cursor: not-allowed; }
+.iet-dp-title{ font-size: 14.5px; font-weight: 700; color: var(--p-on-surface); }
+.iet-dp-weekdays{ display: grid; grid-template-columns: repeat(7,1fr); margin-bottom: 4px; }
+.iet-dp-weekdays span{ text-align: center; font-size: 11px; font-weight: 600; color: var(--p-outline); padding: 4px 0; display: block; }
+.iet-dp-days{ display: grid; grid-template-columns: repeat(7,1fr); gap: 2px; }
+.iet-dp-day{
+  width: 100%; aspect-ratio: 1/1; border: none; background: none; border-radius: 50%;
+  font-family: inherit; font-size: 12.5px; font-weight: 600; color: var(--p-on-surface);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.iet-dp-day:hover:not(:disabled):not(.iet-muted){ background: var(--p-primary-tint); }
+.iet-dp-day.iet-muted{ color: #c7ccd0; font-weight: 500; cursor: default; }
+.iet-dp-day:disabled{ color: #dcdfe2; cursor: not-allowed; }
+.iet-dp-day.iet-today:not(.iet-selected){ border: 1.5px solid var(--p-primary); font-weight: 700; }
+.iet-dp-day.iet-selected{ background: var(--p-primary); color: #fff; font-weight: 700; }
+
+/* ============================================================
+   Modal chrome — confirm dialogs + the richer "result" popup
+   (icon badge, centered copy, outcome-colored OK button).
+   ============================================================ */
+.iet-modal-bg{
+  display: none; position: fixed; inset: 0; background: rgba(27,27,29,.45); z-index: 2000;
+  align-items: center; justify-content: center; padding: 20px;
+}
+.iet-modal-bg.iet-open{ display: flex; }
+.iet-modal{
+  background: #fff; border-radius: var(--p-radius-card); max-width: 380px; width: 100%; padding: 24px;
+  box-shadow: 0 20px 50px -12px rgba(27,27,29,.3);
+}
+.iet-modal h3{ margin: 0 0 8px; font-size: 16px; font-weight: 700; color: var(--p-on-surface); }
+.iet-modal p{ margin: 0 0 20px; font-size: 13.5px; color: var(--p-on-surface-variant); line-height: 1.5; }
+.iet-modal-actions{ display: flex; justify-content: flex-end; gap: 10px; }
+
+/* Result variant — icon badge + centered title/body + single OK button,
+   colored by outcome: success / warn / reject. */
+.iet-result-modal{ position: relative; text-align: center; padding: 32px 28px 26px; }
+.iet-result-close{
+  position: absolute; top: 12px; right: 12px; width: 28px; height: 28px; border-radius: 50%;
+  border: none; background: var(--p-bg); color: var(--p-outline); cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: background .15s, color .15s;
+}
+.iet-result-close:hover{ background: var(--p-border); color: var(--p-on-surface); }
+.iet-result-close svg{ width: 14px; height: 14px; }
+.iet-result-icon{
+  width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 16px;
+  display: flex; align-items: center; justify-content: center;
+}
+.iet-result-icon svg{ width: 26px; height: 26px; }
+.iet-result-icon.iet-success{ background: var(--p-success-bg); color: var(--p-success-ic); }
+.iet-result-icon.iet-warn{ background: var(--p-tertiary-container); color: var(--p-on-tertiary-container); }
+.iet-result-icon.iet-reject{ background: var(--p-error-container); color: var(--p-error); }
+.iet-result-modal h3{ margin: 0 0 6px; font-size: 17px; font-weight: 700; }
+.iet-result-modal p{ margin: 0 0 24px; }
+.iet-result-actions{ justify-content: center; }
+.iet-btn-result-ok{
+  padding: 10px 36px; border-radius: var(--p-radius-control); border: none; color: #fff;
+  font-family: inherit; font-size: 13.5px; font-weight: 700; cursor: pointer; transition: filter .15s;
+}
+.iet-btn-result-ok:hover{ filter: brightness(1.05); }
+.iet-btn-result-ok.iet-success{ background: var(--p-success-ic); }
+.iet-btn-result-ok.iet-warn{ background: var(--p-tertiary); }
+.iet-btn-result-ok.iet-reject{ background: var(--p-error); }
+
+/* "How to..." explainer modal shell — gradient banner header with an icon
+   badge + title + close button, numbered steps list, an amber notes box.
+   Page supplies its own copy/steps; this is layout + color only. */
+.iet-howto-overlay{
+  display: none; position: fixed; inset: 0; background: rgba(27,27,29,0.5);
+  z-index: 2100; align-items: center; justify-content: center; padding: 24px;
+}
+.iet-howto-overlay.iet-open{ display: flex; }
+.iet-howto-modal{
+  background: #fff; border-radius: var(--p-radius-card); width: 100%; max-width: 480px;
+  max-height: 88vh; overflow-y: auto; overflow-x: hidden; box-shadow: 0 20px 48px rgba(20,24,31,0.24);
+  scrollbar-width: none; -ms-overflow-style: none;
+}
+.iet-howto-modal::-webkit-scrollbar{ display: none; width: 0; height: 0; }
+.iet-howto-banner{
+  position: relative; text-align: center; padding: 30px 30px 24px;
+  background: linear-gradient(120deg, #e0f4f8, #e9f6f0);
+  border-bottom: 1px solid var(--p-border); border-radius: var(--p-radius-card) var(--p-radius-card) 0 0;
+}
+.iet-howto-banner-icon{
+  width: 46px; height: 46px; border-radius: 12px; margin: 0 auto 14px;
+  background: linear-gradient(135deg, #00a3cc, var(--p-primary)); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+}
+.iet-howto-banner-icon svg{ width: 22px; height: 22px; }
+.iet-howto-title{ font-size: 19px; font-weight: 700; color: var(--p-on-surface); line-height: 1.3; }
+.iet-howto-subtitle{ font-size: 13px; color: var(--p-outline); margin-top: 8px; line-height: 1.55; }
+.iet-howto-close{
+  position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; border-radius: 50%;
+  border: none; background: rgba(255,255,255,0.75); color: var(--p-on-surface-variant); display: flex;
+  align-items: center; justify-content: center; cursor: pointer; transition: background .15s;
+}
+.iet-howto-close:hover{ background: rgba(255,255,255,0.95); }
+.iet-howto-body{ padding: 22px 26px 26px; }
+.iet-howto-steps{ list-style: none; counter-reset: iet-howto-step; margin: 0 0 18px; padding: 0; }
+.iet-howto-steps li{
+  counter-increment: iet-howto-step; display: flex; gap: 12px; align-items: flex-start;
+  font-size: 13.5px; line-height: 1.55; color: var(--p-on-surface); padding: 8px 0;
+}
+.iet-howto-steps li::before{
+  content: counter(iet-howto-step); flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--p-primary-tint); color: var(--p-primary); font-size: 11.5px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; margin-top: 1px;
+}
+.iet-howto-notes{ background: var(--p-tertiary-container); border: 1px solid #ffcb95; border-radius: 10px; padding: 14px 16px; }
+.iet-howto-notes h4{ font-size: 13px; font-weight: 700; color: var(--p-on-tertiary-container); margin-bottom: 8px; }
+.iet-howto-notes ul{ margin: 0; padding-left: 18px; }
+.iet-howto-notes li{ font-size: 12.5px; line-height: 1.6; color: var(--p-on-tertiary-container); margin-bottom: 6px; }
+.iet-howto-notes li:last-child{ margin-bottom: 0; }
+
+/* ============================================================
+   Sidebar shell — recolored onto the --p-* tokens above (the
+   original ess-sidebar.js shipped its own separate --ess-*
+   palette, a close-but-not-matching teal). Structure/behavior
+   classes are unchanged from that script; only the colors move
+   onto this file's tokens, so the sidebar visually matches
+   whatever page it sits next to. Nav items, HR gating, and the
+   user lookup are NOT here — that stays in each site's own
+   sidebar script, exactly as before; this is the shell only.
+   ============================================================ */
+body.iet-has-sidebar{ margin-left: 240px !important; }
+#iet-sidebar{
+  position: fixed; top: 0; left: 0; bottom: 0; width: 240px; z-index: 1000;
+  background: linear-gradient(180deg, var(--p-primary), #00a9c1); color: #fff;
+  display: flex; flex-direction: column; font-family: var(--p-font);
+  box-shadow: 2px 0 10px rgba(0,0,0,.08);
+}
+#iet-sb-brand{ padding: 20px 18px 18px; border-bottom: 1px solid rgba(255,255,255,.22); }
+#iet-sb-brand .iet-brand-logo-wrap{
+  background: rgba(255,255,255,.96); border-radius: 12px; padding: 14px 12px;
+  display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box;
+}
+#iet-sb-brand .iet-brand-logo{ display: block; height: 64px; width: auto; max-width: 100%; object-fit: contain; }
+#iet-sb-brand .iet-brand-sub{ font-size: 18px; font-weight: 700; opacity: .95; margin-top: 12px; }
+#iet-sb-user{ padding: 16px 22px; border-bottom: 1px solid rgba(255,255,255,.22); }
+#iet-sb-user .iet-user-name{ font-size: 14px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#iet-sb-user .iet-user-date{ font-size: 11.5px; opacity: .8; margin-top: 3px; }
+#iet-sb-nav{ flex: 1; padding: 14px 12px; overflow-y: auto; }
+.iet-nav-item{
+  display: flex; align-items: center; gap: 12px; padding: 11px 14px; margin-bottom: 3px;
+  border-radius: 9px; color: #fff; text-decoration: none; font-size: 14px; font-weight: 500; opacity: .88;
+  transition: background .15s, opacity .15s;
+}
+.iet-nav-item svg{ width: 18px; height: 18px; flex-shrink: 0; }
+.iet-nav-item:hover{ background: rgba(255,255,255,.12); opacity: 1; }
+.iet-nav-item.iet-active{ background: rgba(255,255,255,.22); opacity: 1; font-weight: 600; }
+.iet-nav-item:focus-visible{ outline: 2px solid #fff; outline-offset: 1px; }
+#iet-sb-footer{ padding: 14px 12px; border-top: 1px solid rgba(255,255,255,.22); }
+#iet-sb-logout{
+  display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: 9px;
+  color: #fff; text-decoration: none; font-size: 14px; font-weight: 500; opacity: .8; background: none; border: none;
+  width: 100%; cursor: pointer; font-family: inherit; text-align: left;
+}
+#iet-sb-logout:hover{ background: rgba(255,255,255,.12); opacity: 1; }
+#iet-sb-logout svg{ width: 18px; height: 18px; flex-shrink: 0; }
+
+#iet-sb-toggle{
+  display: none; position: fixed; top: 16px; left: 16px; z-index: 1100;
+  width: 40px; height: 40px; border-radius: 9px; background: var(--p-primary); color: #fff; border: none;
+  align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,.18); cursor: pointer;
+}
+#iet-sb-toggle svg{ width: 20px; height: 20px; }
+#iet-sb-overlay{ display: none; position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 999; }
+
+/* Ordinary block-level spacer, inserted as the first child of <body>.
+   Its height reserves real flow space so the fixed top-right avatar never
+   overlaps a page's own top-right content. */
+#iet-sidebar-header{ height: 48px; background: var(--p-surface); border-bottom: 1px solid var(--p-border); }
+
+/* Top-right profile avatar + dropdown */
+#iet-sidebar-topbar{
+  position: fixed; top: 6px; right: 20px; z-index: 1050; font-family: var(--p-font);
+  transition: opacity .18s ease, transform .18s ease;
+}
+#iet-sidebar-topbar.iet-scroll-hidden{ opacity: 0; transform: translateY(-6px); pointer-events: none; }
+#iet-sidebar-avatar-btn{
+  width: 36px; height: 36px; border-radius: 50%; border: 2px solid #fff;
+  display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700;
+  cursor: pointer; box-shadow: 0 2px 8px rgba(20,24,31,.16);
+}
+#iet-sidebar-avatar-dropdown{
+  position: absolute; top: calc(100% + 10px); right: 0; width: 198px;
+  background: #fff; border: 1px solid var(--p-border); border-radius: 12px; box-shadow: 0 12px 32px rgba(20,24,31,.16);
+  padding: 6px; display: none;
+}
+#iet-sidebar-avatar-dropdown.iet-open{ display: block; }
+.iet-sidebar-td-item{
+  display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px;
+  font-size: 13.5px; color: var(--p-on-surface-variant); cursor: pointer; text-decoration: none; background: none; border: none;
+  width: 100%; text-align: left; font-family: inherit;
+}
+.iet-sidebar-td-item:hover{ background: var(--p-bg); }
+.iet-sidebar-td-item svg{ width: 16px; height: 16px; flex-shrink: 0; color: var(--p-outline); }
+.iet-sidebar-td-divider{ height: 1px; background: var(--p-border); margin: 5px 4px; }
+
+/* Real, working light/dark toggle — scoped to this shell's own chrome
+   only (see widgets.js: ietToggleSidebarTheme). Full page-content dark
+   mode is a separate, larger job and is not attempted here. */
+html.iet-theme-dark #iet-sidebar{ background: linear-gradient(180deg, #0b3b44, #0e5964); }
+html.iet-theme-dark #iet-sidebar-header{ background: #20242b; border-color: #333944; }
+html.iet-theme-dark #iet-sidebar-avatar-dropdown{ background: #20242b; border-color: #333944; }
+html.iet-theme-dark .iet-sidebar-td-item{ color: #e5e7eb; }
+html.iet-theme-dark .iet-sidebar-td-item svg{ color: #9ca3af; }
+html.iet-theme-dark .iet-sidebar-td-item:hover{ background: #2a2f38; }
+html.iet-theme-dark .iet-sidebar-td-divider{ background: #333944; }
+
+@media (max-width: 768px){
+  body.iet-has-sidebar{ margin-left: 0 !important; }
+  #iet-sidebar{ transform: translateX(-100%); transition: transform .2s ease; }
+  body.iet-sb-open #iet-sidebar{ transform: translateX(0); }
+  body.iet-sb-open #iet-sb-overlay{ display: block; }
+  #iet-sb-toggle{ display: flex; }
+}
