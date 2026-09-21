@@ -64,31 +64,98 @@ Same mechanism already used for `itchamps_timesheet`:
 
 No `bench migrate` step is required — there's nothing to migrate.
 
-## Using the widgets
+## How to use this theme after installation
 
-```html
-<link rel="stylesheet" href="/assets/iempower_theme/css/theme.css">
-<script src="/assets/iempower_theme/js/widgets.js"></script>
+Once the app is installed on a site, the shared assets are loaded through the app hooks, so developers do not need to add the stylesheet or script tag manually on every page.
 
-<div class="iet-root iet-fade-in" id="my-page-root">
-  <div class="iet-cs-wrap">
-    <select id="status-filter">
-      <option value="">Status: All</option>
-      <option value="Draft">Draft</option>
-    </select>
-  </div>
-  <input type="text" id="from-date" placeholder="From date">
-</div>
+### Global hook setup
 
-<script>
-  IET.initCustomSelect(document.getElementById('status-filter'), { placeholder: 'Status: All' });
-  IET.initDatePicker(document.getElementById('from-date'), {
-    placeholder: 'From date',
-    getMax: function(){ return document.getElementById('to-date').value; }
-  });
-  IET.revealOnReady('my-page-root');
-</script>
+```python
+web_include_css = [
+    "/assets/iempower_theme/css/theme.css",
+    "/assets/iempower_theme/css/compatibility.css",
+]
+
+web_include_js = [
+    "/assets/iempower_theme/js/widgets.js",
+]
 ```
 
-See `public/js/widgets.js` for the full list of exported `IET.*` functions
-and their options.
+This means the theme CSS and shared widgets are available across the site automatically.
+
+### Use the theme contract on new pages
+
+The page should follow the shared theme structure. Use classes like:
+
+- `.iet-root`
+- `.iet-page`
+- `.iet-card`
+- `.iet-btn`
+- `.iet-btn-outline`
+- `.iet-filters`
+- `.iet-filter-field`
+- `data-iet-select`
+- `data-iet-date`
+
+Example:
+
+```html
+<div class="iet-root" id="dashboard-root">
+  <div class="iet-page">
+    <h1>Overview</h1>
+
+    <div class="iet-filters">
+      <div class="iet-filter-field">
+        <select data-iet-select data-placeholder="Status: All">
+          <option value="">All</option>
+          <option value="Draft">Draft</option>
+          <option value="Approved">Approved</option>
+        </select>
+      </div>
+
+      <div class="iet-filter-field">
+        <input type="date" id="from-date" data-iet-date data-placeholder="From date" data-max="#to-date">
+      </div>
+
+      <div class="iet-filter-field">
+        <input type="date" id="to-date" data-iet-date data-placeholder="To date" data-min="#from-date">
+      </div>
+    </div>
+
+    <div class="iet-cards-row">
+      <div class="iet-card">
+        <div class="iet-stat-label">Total</div>
+        <div class="iet-stat-value">128</div>
+      </div>
+    </div>
+
+    <div class="iet-actions">
+      <button class="iet-btn">Add New</button>
+      <button class="iet-btn-outline">Export</button>
+    </div>
+  </div>
+</div>
+```
+
+### Why this works
+
+The shared JS automatically initializes any element using `data-iet-select` or `data-iet-date`, so developers do not need to write the widget setup script for each page.
+
+### Legacy / older pages
+
+Older pages that still use legacy classes like `.btn`, `.card`, `.sidebar`, etc. can keep working because the app also includes a compatibility stylesheet:
+
+```python
+web_include_css = [
+    "/assets/iempower_theme/css/theme.css",
+    "/assets/iempower_theme/css/compatibility.css",
+]
+```
+
+This helps maintain visual consistency until older pages are gradually migrated to the `.iet-*` pattern.
+
+### Important note
+
+This theme is designed to style the content area and shared widgets. It does not replace the entire host shell of a Frappe dashboard. The page should still follow the theme contract for best results, while older pages can rely on compatibility support.
+
+See `public/js/widgets.js` for the full list of exported `IET.*` functions and their options.
