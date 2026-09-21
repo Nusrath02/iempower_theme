@@ -456,5 +456,42 @@
   IET.setupSidebarAvatarDropdown = ietSetupSidebarAvatarDropdown;
   IET.setupSidebarThemeToggle = ietSetupSidebarThemeToggle;
 
+  document.addEventListener('DOMContentLoaded', function () {
+    if (!window.IET) return;
+
+    document.querySelectorAll('select[data-iet-select]').forEach(function (el) {
+      if (el.dataset.ietReady === '1') return;
+      el.dataset.ietReady = '1';
+      IET.initCustomSelect(el, {
+        placeholder: el.dataset.placeholder || 'Select'
+      });
+    });
+
+    document.querySelectorAll('input[data-iet-date]').forEach(function (el) {
+      if (el.dataset.ietReady === '1') return;
+      el.dataset.ietReady = '1';
+
+      var opts = {
+        placeholder: el.dataset.placeholder || 'Select date'
+      };
+
+      if (el.dataset.min) {
+        opts.getMin = function () {
+          var target = document.querySelector(el.dataset.min);
+          return target ? target.value : '';
+        };
+      }
+
+      if (el.dataset.max) {
+        opts.getMax = function () {
+          var target = document.querySelector(el.dataset.max);
+          return target ? target.value : '';
+        };
+      }
+
+      IET.initDatePicker(el, opts);
+    });
+  });
+
   window.IET = IET;
 })();
