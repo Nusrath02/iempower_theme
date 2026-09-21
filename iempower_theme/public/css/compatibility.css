@@ -1,0 +1,237 @@
+/* ============================================================
+   iEmpPower Theme — compatibility layer
+   ------------------------------------------------------------
+   This file is intentionally small and pragmatic: it lets older
+   pages or custom pages keep their old HTML classes while still
+   adopting the iEmpower visual system without rewriting every
+   element to the new .iet-* contract.
+
+   Use it after theme.css so it can override legacy markup with
+   the theme's design tokens and shared component styles.
+   ============================================================ */
+
+/* ---------- Legacy page shell ---------- */
+body {
+  margin: 0;
+  font-family: var(--p-font, 'Hanken Grotesk', sans-serif);
+  background: var(--p-bg, #f8f9fa);
+  color: var(--p-on-surface, #1b1b1d);
+}
+
+.sidebar,
+#iet-sidebar,
+.iet-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 240px;
+  background: linear-gradient(180deg, var(--p-primary, #008BB1), #00a9c1);
+  color: #fff;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+}
+
+.main,
+#iet-shell,
+.iet-main {
+  margin-left: 240px;
+  min-height: 100vh;
+  background: var(--p-bg, #f8f9fa);
+}
+
+/* ---------- Legacy cards ---------- */
+.card,
+.iet-card,
+.stat-card,
+.dashboard-card {
+  background: var(--p-surface, #ffffff);
+  border: 1px solid var(--p-border, #e5e7eb);
+  border-radius: var(--p-radius-card, 16px);
+  padding: 20px 22px;
+  box-sizing: border-box;
+}
+
+/* ---------- Buttons ---------- */
+.btn,
+.btn-primary,
+.btn-secondary,
+button[type="button"],
+button[type="submit"],
+.iet-btn,
+.iet-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: var(--p-radius-control, 8px);
+  padding: 10px 18px;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn,
+.btn-primary,
+.iet-btn {
+  background: var(--p-primary, #008BB1);
+  color: #fff;
+  border: none;
+}
+
+.btn:hover,
+.btn-primary:hover,
+.iet-btn:hover {
+  filter: brightness(1.04);
+  box-shadow: 0 4px 12px rgba(0, 139, 177, 0.18);
+}
+
+.btn-secondary,
+.iet-btn-outline {
+  background: #fff;
+  color: var(--p-primary, #008BB1);
+  border: 1.5px solid var(--p-primary, #008BB1);
+}
+
+.btn-secondary:hover,
+.iet-btn-outline:hover {
+  background: rgba(0, 139, 177, 0.06);
+}
+
+/* ---------- Inputs and selects ---------- */
+input[type="text"],
+input[type="date"],
+input[type="number"],
+input[type="email"],
+select,
+textarea,
+.iet-root input,
+.iet-root select,
+.iet-root textarea {
+  width: 100%;
+  border: 1px solid var(--p-secondary, #87888A);
+  border-radius: var(--p-radius-control, 8px);
+  padding: 9px 12px;
+  font-family: inherit;
+  font-size: 13.5px;
+  color: var(--p-on-surface, #1b1b1d);
+  background: #fff;
+  box-sizing: border-box;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--p-primary, #008BB1);
+  box-shadow: 0 0 0 2px rgba(0, 139, 177, 0.08);
+}
+
+/* ---------- Legacy stat blocks ---------- */
+.label,
+.iet-stat-label,
+.iet-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--p-on-surface-variant, #3e484d);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.value,
+.iet-stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--p-on-surface, #1b1b1d);
+}
+
+/* ---------- Legacy nav ---------- */
+.sidebar a,
+.nav-item,
+.iet-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: 9px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.88;
+}
+
+.sidebar a.active,
+.nav-item.active,
+.iet-nav-item.iet-active {
+  background: rgba(255, 255, 255, 0.2);
+  opacity: 1;
+  font-weight: 600;
+}
+
+/* ---------- Page containers ---------- */
+.iet-page,
+.page,
+.dashboard-page,
+.main-content {
+  padding: 28px 32px;
+  box-sizing: border-box;
+}
+
+.iet-page h1,
+.page h1,
+.dashboard-page h1,
+.main-content h1 {
+  margin: 0 0 4px;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--p-on-surface, #1b1b1d);
+}
+
+.iet-sub,
+.sub,
+.page-subtitle {
+  font-size: 13.5px;
+  color: var(--p-outline, #6e797e);
+  margin-bottom: 22px;
+}
+
+/* ---------- Legacy utility layout ---------- */
+.cards,
+.iet-cards-row,
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.actions,
+.iet-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* ---------- Mobile fallback ---------- */
+@media (max-width: 768px) {
+  .sidebar,
+  #iet-sidebar,
+  .iet-sidebar {
+    transform: translateX(-100%);
+  }
+
+  .main,
+  #iet-shell,
+  .iet-main {
+    margin-left: 0;
+  }
+}
